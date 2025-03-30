@@ -9,28 +9,23 @@
 
 #!/bin/bash
 
-youtube_segment_down() {
-    echo "Enter output file name: "
-    read output_file
+echo "Enter the path of the video file: "
+read input_file
 
-    echo "Enter start time: "
-    read start
+echo "Enter start time (in the formatHH:MM:SS): "
+read start_time
 
-    echo "Enter end time: "
-    read end
+echo "Enter end time (int the format HH:MM:SS): "
+read end_time
 
-    echo "Enter YouTube video URL: "
-    read url
+echo "Enter output file name (with extension): "
+read output_file
 
-    echo "Enter the existing direct video URL"
-    direct_url=$(yt-dlp -f best --get-url "$url")
+# Extract the required segment
+echo "Extracting segment..."
+ffmpeg -ss "$start_time" -i "$input_file" -to "$end_time" -c copy "$output_file"
 
-    echo "Downloading required segment"
-    ffmpeg -ss "$start" -i "$direct_url" -to "$end" -c copy "$output_file"
+echo "Segment saved as $output_file"
 
-    echo "Required segment saved as $output_file"
-}
-
-youtube_segment_down
 
 
