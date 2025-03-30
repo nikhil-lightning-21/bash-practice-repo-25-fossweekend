@@ -6,3 +6,31 @@
 # The above command should create a output file which contains the video from 2 min to 4 min.
 #
 # Refer: youtube-dl and ffmpeg commands for this
+
+#!/bin/bash
+
+youtube_segment_down() {
+    echo "Enter output file name: "
+    read output_file
+
+    echo "Enter start time: "
+    read start
+
+    echo "Enter end time: "
+    read end
+
+    echo "Enter YouTube video URL: "
+    read url
+
+    echo "Enter the existing direct video URL"
+    direct_url=$(yt-dlp -f best --get-url "$url")
+
+    echo "Downloading required segment"
+    ffmpeg -ss "$start" -i "$direct_url" -to "$end" -c copy "$output_file"
+
+    echo "Required segment saved as $output_file"
+}
+
+youtube_segment_down
+
+
